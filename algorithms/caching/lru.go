@@ -1,12 +1,18 @@
 package caching
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // TODO: improvements:
 // - make into a generic []T
 // - change Get return to an optional?
 
-var CacheMissError = errors.New("cache miss")
+var (
+	CacheMissError               = errors.New("cache miss")
+	CacheEntryAlreadyExistsError = errors.New("entry with this key already exists in cache")
+)
 
 type LRUCache struct {
 	capacity int
@@ -25,27 +31,55 @@ func NewLRUCache(capacity int) *LRUCache {
 func (c *LRUCache) Get(key string) (string, error) {
 	item, ok := c.itemsMap[key]
 	if ok {
-		// TODO: remove from keys and add back to keys at the top
+		// Remove key from keys and then add it back to the 'top' (so it is considered most recently used)
+		filteredKeys := []string{}
+		for _, k := range c.keys {
+			if k != key {
+				filteredKeys = append(filteredKeys, k)
+			}
+		}
+		filteredKeys = append(filteredKeys, key)
+
+		c.keys = filteredKeys
 
 		return item, nil
 	}
-
-	// TODO: client must Add this to the cache after getting a cache miss error?
 
 	return "", CacheMissError
 }
 
 func (c *LRUCache) Remove(key string) {
 	delete(c.itemsMap, key)
-	// TODO: remove from keys array
+
+	filteredKeys := []string{}
+	for _, k := range c.keys {
+		if k != key {
+			filteredKeys = append(filteredKeys, k)
+		}
+	}
+	c.keys = filteredKeys
 }
 
-func (c *LRUCache) Add(key string, value string) {
+func (c *LRUCache) Add(key string, value string) error {
+	_, exists := c.itemsMap[key]
+	if exists {
+		return fmt.Errorf("failed to add key '%s' to cache: %w", key, CacheEntryAlreadyExistsError)
+	}
+
+	// If the cache is already full, remove the least recently used item (key at the front of keys)
+	// before adding the new entry to the cache
 	if len(c.itemsMap) >= c.capacity {
-		// Remove least recently used item
-		// TODO: remove keys[0] from keys and delete it from itemsMap
+		keyToRemove := c.keys[0]
+		c.keys = c.keys[1:]
+		delete(c.itemsMap, keyToRemove)
 	}
 
 	c.itemsMap[key] = value
 	c.keys = append(c.keys, key)
+
+	return nil
+}
+
+func (c *LRUCache) Keys() []string {
+	return c.keys
 }
