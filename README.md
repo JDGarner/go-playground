@@ -1,3 +1,3 @@
 # Go Playground
 
-Repo for algorithms and other fun stuff in Go
+Algorithms, patterns and other fun stuff in Go

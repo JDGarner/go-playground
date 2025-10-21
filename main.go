@@ -1,41 +1,29 @@
 package main
 
 import (
-	"fmt"
-
-	fanin "github.com/JDGarner/go-playground/concurrency/fan_in"
-	"github.com/JDGarner/go-playground/concurrency/generator"
+	"github.com/JDGarner/go-playground/concurrency"
 )
 
 func main() {
-	// FanInExample()
-	// FibGeneratorExample()
-	// DoubleGeneratorExample()
+	concurrencyExamples()
 }
 
-func FanInExample() {
-	strings1 := generator.Strings("hello", "my", "name", "is", "ham")
-	strings2 := generator.Strings("goodbye", "mr", "ham")
+func concurrencyExamples() {
+	// ***************************************
+	// Fan In Pattern
+	// ***************************************
+	// concurrency.FanInExample()
 
-	combined := fanin.New(strings1, strings2)
+	// ***************************************
+	// Generator Pattern
+	// ***************************************
+	// concurrency.TickerGeneratorExample()
+	// concurrency.FibGeneratorExample()
+	// concurrency.DoubleGeneratorExample()
 
-	for val := range combined {
-		fmt.Println(val)
-	}
-}
-
-func FibGeneratorExample() {
-	fib := generator.Fibonacci()
-	for i := 0; i < 12; i++ {
-		fmt.Println(<-fib)
-	}
-}
-
-func DoubleGeneratorExample() {
-	numbers := generator.Integer(10)
-	doubled := generator.Double(numbers)
-
-	for num := range doubled {
-		fmt.Println(num)
-	}
+	// ***************************************
+	// Misc
+	// ***************************************
+	// concurrency.TickerWithDoneChannel()
+	concurrency.CancellableExample()
 }

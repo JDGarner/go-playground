@@ -1,5 +1,10 @@
 package generator
 
+import (
+	"context"
+	"time"
+)
+
 func Integer(num int) <-chan int {
 	ch := make(chan int)
 
@@ -48,6 +53,41 @@ func Strings(strings ...string) <-chan string {
 		defer close(ch)
 		for _, s := range strings {
 			ch <- s
+		}
+	}()
+
+	return ch
+}
+
+func Ticker(d time.Duration) <-chan time.Time {
+	ch := make(chan time.Time)
+
+	go func() {
+		t := time.NewTicker(d)
+		defer t.Stop()
+		defer close(ch)
+
+		for tick := range t.C {
+			ch <- tick
+		}
+	}()
+
+	return ch
+}
+
+func Cancellable(ctx context.Context) <-chan int {
+	ch := make(chan int)
+
+	go func() {
+		defer close(ch)
+
+		for i := 0; ; i++ {
+			select {
+			case ch <- i:
+				time.Sleep(time.Millisecond * 200)
+			case <-ctx.Done():
+				return
+			}
 		}
 	}()
 
