@@ -1,6 +1,9 @@
 dep:
 	GO111MODULE=on go mod download
 
+test:
+	go test ./...
+
 build:
 	CGO_ENABLED=0 \
 	GOOS=linux \
