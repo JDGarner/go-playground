@@ -1,14 +1,18 @@
 package main
 
 import (
+	"fmt"
+
+	"github.com/JDGarner/go-playground/algorithms/sorting"
 	"github.com/JDGarner/go-playground/concurrency"
 )
 
 func main() {
-	concurrencyExamples()
+	// ConcurrencyExamples()
+	// SortingExamples()
 }
 
-func concurrencyExamples() {
+func ConcurrencyExamples() {
 	// ***************************************
 	// Fan In Pattern
 	// ***************************************
@@ -26,4 +30,22 @@ func concurrencyExamples() {
 	// ***************************************
 	// concurrency.TickerWithDoneChannel()
 	concurrency.CancellableExample()
+}
+
+func SortingExamples() {
+	toBucketSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	sorting.BucketSort(toBucketSort)
+	fmt.Println("bucket sorted: ", toBucketSort)
+
+	toInsertionSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	sorting.InsertionSort(toInsertionSort)
+	fmt.Println("insertion sorted: ", toInsertionSort)
+
+	toMergeSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	mergeSorted := sorting.MergeSort(toMergeSort)
+	fmt.Println("merge sorted: ", mergeSorted)
+
+	toQuickSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	sorting.QuickSort(toQuickSort)
+	fmt.Println("quick sorted: ", toQuickSort)
 }
