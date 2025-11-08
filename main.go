@@ -9,14 +9,14 @@ import (
 
 func main() {
 	// ConcurrencyExamples()
-	// SortingExamples()
+	SortingExamples()
 }
 
 func ConcurrencyExamples() {
 	// ***************************************
 	// Fan In Pattern
 	// ***************************************
-	// concurrency.FanInExample()
+	concurrency.FanInExample()
 
 	// ***************************************
 	// Generator Pattern
@@ -29,7 +29,7 @@ func ConcurrencyExamples() {
 	// Misc
 	// ***************************************
 	// concurrency.TickerWithDoneChannel()
-	concurrency.CancellableExample()
+	// concurrency.CancellableExample()
 }
 
 func SortingExamples() {
@@ -42,8 +42,8 @@ func SortingExamples() {
 	fmt.Println("insertion sorted: ", toInsertionSort)
 
 	toMergeSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
-	mergeSorted := sorting.MergeSort(toMergeSort)
-	fmt.Println("merge sorted: ", mergeSorted)
+	sorting.MergeSort(toMergeSort)
+	fmt.Println("merge sorted: ", toMergeSort)
 
 	toQuickSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
 	sorting.QuickSort(toQuickSort)
