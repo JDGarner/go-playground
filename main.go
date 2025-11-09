@@ -3,13 +3,15 @@ package main
 import (
 	"fmt"
 
+	"github.com/JDGarner/go-playground/algorithms/search"
 	"github.com/JDGarner/go-playground/algorithms/sorting"
 	"github.com/JDGarner/go-playground/concurrency"
 )
 
 func main() {
 	// ConcurrencyExamples()
-	SortingExamples()
+	// SortingExamples()
+	// SearchExamples()
 }
 
 func ConcurrencyExamples() {
@@ -48,4 +50,11 @@ func SortingExamples() {
 	toQuickSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
 	sorting.QuickSort(toQuickSort)
 	fmt.Println("quick sorted: ", toQuickSort)
+}
+
+func SearchExamples() {
+	toSearch := []int{-10, -5, -3, -2, -1}
+	target := -10
+	result, found := search.BinarySearch(toSearch, target)
+	fmt.Printf("binary search %v for %d: result: %d, found: %v\n", toSearch, target, result, found)
 }
