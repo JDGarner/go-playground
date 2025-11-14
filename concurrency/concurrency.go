@@ -1,11 +1,18 @@
 package concurrency
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
+	"math/rand"
+	"net/http"
 	"time"
 
-	fanin "github.com/JDGarner/go-playground/concurrency/fan_in"
+	"github.com/JDGarner/go-playground/concurrency/fanin"
+	"github.com/JDGarner/go-playground/concurrency/firstresponse"
 	"github.com/JDGarner/go-playground/concurrency/generator"
 )
 
@@ -98,4 +105,61 @@ func CancellableExample() {
 		fmt.Println(v)
 	}
 	cancel()
+}
+
+func FirstResponseExample() {
+	resp := firstresponse.Fetch(
+		fmt.Sprintf("https://swapi.dev/api/people/%d", rand.Intn(50)),
+		"https://catfact.ninja/fact",
+		"https://official-joke-api.appspot.com/random_joke",
+		"https://api.breakingbadquotes.xyz/v1/quotes",
+		"https://api.adviceslip.com/advice",
+	)
+
+	data, err := getResponseData(resp)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println("first returned data:")
+	fmt.Println(data)
+}
+
+func AllResponsesExample() {
+	responses := firstresponse.FetchAll(
+		fmt.Sprintf("https://swapi.dev/api/people/%d", rand.Intn(50)),
+		"https://catfact.ninja/fact",
+		"https://official-joke-api.appspot.com/random_joke",
+		"https://api.breakingbadquotes.xyz/v1/quotes",
+		"https://api.adviceslip.com/advice",
+	)
+
+	for resp := range responses {
+		data, err := getResponseData(resp)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println(data)
+		}
+	}
+}
+
+func getResponseData(resp *http.Response) (string, error) {
+	if resp == nil {
+		return "", errors.New("no response")
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("failed to read response body: ", err)
+	}
+
+	var buf bytes.Buffer
+	err = json.Indent(&buf, body, "", "  ")
+	if err != nil {
+		return "", fmt.Errorf("failed to marshal body into json: ", err)
+	}
+
+	return buf.String(), nil
 }

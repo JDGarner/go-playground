@@ -32,24 +32,30 @@ func ConcurrencyExamples() {
 	// ***************************************
 	// concurrency.TickerWithDoneChannel()
 	// concurrency.CancellableExample()
+	// concurrency.FirstResponseExample()
+	// concurrency.AllResponsesExample()
 }
 
 func SortingExamples() {
-	toBucketSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	toBucketSort := getDataToSort()
 	sorting.BucketSort(toBucketSort)
 	fmt.Println("bucket sorted: ", toBucketSort)
 
-	toInsertionSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	toInsertionSort := getDataToSort()
 	sorting.InsertionSort(toInsertionSort)
 	fmt.Println("insertion sorted: ", toInsertionSort)
 
-	toMergeSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	toMergeSort := getDataToSort()
 	sorting.MergeSort(toMergeSort)
 	fmt.Println("merge sorted: ", toMergeSort)
 
-	toQuickSort := []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+	toQuickSort := getDataToSort()
 	sorting.QuickSort(toQuickSort)
 	fmt.Println("quick sorted: ", toQuickSort)
+}
+
+func getDataToSort() []int {
+	return []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
 }
 
 func SearchExamples() {
