@@ -8,7 +8,7 @@ import (
 	"github.com/JDGarner/go-playground/algorithms/search/helpers"
 )
 
-func TestBucketSortInPlace(t *testing.T) {
+func TestBinarySearch(t *testing.T) {
 	for label, testcase := range helpers.SearchTestCases {
 		t.Run(fmt.Sprintf("binary search: %s", label), func(t *testing.T) {
 			targetIndex, found := search.BinarySearch(testcase.Input, testcase.Target)

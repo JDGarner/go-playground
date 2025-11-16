@@ -1,0 +1,76 @@
+package algorithms
+
+import (
+	"fmt"
+
+	"github.com/JDGarner/go-playground/algorithms/search"
+	"github.com/JDGarner/go-playground/algorithms/sorting"
+	"github.com/JDGarner/go-playground/datastructures/binarysearchtree"
+)
+
+// ------------------------------------------
+// SORTING
+// ------------------------------------------
+func BucketSortExample() {
+	toSort := getDataToSort()
+	sorting.BucketSort(toSort)
+	fmt.Println("bucket sorted:", toSort)
+}
+
+func InsertionSortExample() {
+	toSort := getDataToSort()
+	sorting.InsertionSort(toSort)
+	fmt.Println("insertion sorted:", toSort)
+}
+
+func MergeSortExample() {
+	toSort := getDataToSort()
+	sorting.MergeSort(toSort)
+	fmt.Println("merge sorted:", toSort)
+}
+
+func QuickSortExample() {
+	toSort := getDataToSort()
+	sorting.QuickSort(toSort)
+	fmt.Println("quick sorted:", toSort)
+}
+
+func getDataToSort() []int {
+	return []int{100, 101, 116, 107, 111, 115, 115, 110, 106, 103, 100, 116, 104}
+}
+
+// ------------------------------------------
+// SEARCH
+// ------------------------------------------
+func BinarySearchExample() {
+	toSearch := []int{-10, -5, -3, -2, -1}
+	target := -10
+	result, found := search.BinarySearch(toSearch, target)
+	fmt.Printf("binary search %v for %d: result: %d, found: %v\n", toSearch, target, result, found)
+}
+
+func BSTSearchExample() {
+	bst := binarysearchtree.New(5)
+	bst.SetLeft(3)
+	bst.Left.SetLeft(1)
+	bst.SetRight(7)
+	bst.Right.SetLeft(6)
+	bst.Right.SetRight(19)
+
+	fmt.Println(bst.String())
+
+	target := 19
+	found := search.BSTSearch(bst, target)
+	fmt.Printf("search in binary search tree for %d: found: %v\n", target, found)
+
+	bst = binarysearchtree.NewFromList([]int{0, 1, 6, 7, 18})
+
+	fmt.Println(bst.String())
+
+	target = 18
+	found = search.BSTSearch(bst, target)
+	fmt.Printf("search in binary search tree for %d: found: %v\n", target, found)
+	target = 42
+	found = search.BSTSearch(bst, target)
+	fmt.Printf("search in binary search tree for %d: found: %v\n", target, found)
+}

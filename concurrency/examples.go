@@ -152,13 +152,13 @@ func getResponseData(resp *http.Response) (string, error) {
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("failed to read response body: ", err)
+		return "", fmt.Errorf("failed to read response body: %v", err)
 	}
 
 	var buf bytes.Buffer
 	err = json.Indent(&buf, body, "", "  ")
 	if err != nil {
-		return "", fmt.Errorf("failed to marshal body into json: ", err)
+		return "", fmt.Errorf("failed to marshal body into json: %v", err)
 	}
 
 	return buf.String(), nil
