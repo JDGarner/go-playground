@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	// AlgorithmExamples()
-	ConcurrencyExamples()
+	AlgorithmExamples()
+	// ConcurrencyExamples()
 }
 
 func ConcurrencyExamples() {

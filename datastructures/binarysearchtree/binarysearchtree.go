@@ -60,17 +60,17 @@ func (b *BST) Insert(value int) *BST {
 	return b
 }
 
-func (b *BST) FindMin() int {
+func (b *BST) FindMin() *BST {
 	if b.Left == nil {
-		return b.Value
+		return b
 	}
 
 	return b.Left.FindMin()
 }
 
-func (b *BST) FindMax() int {
+func (b *BST) FindMax() *BST {
 	if b.Right == nil {
-		return b.Value
+		return b
 	}
 
 	return b.Right.FindMax()
@@ -98,66 +98,41 @@ func (b *BST) IsValid() bool {
 	return rightValid && leftValid
 }
 
-// TODO: redo:
-func (b *BST) Remove(value int) {
-	node := b.Find(value)
-	if node == nil {
-		return
+func (b *BST) Remove(value int) (*BST) {
+	if b == nil {
+		return nil
 	}
 
-	parent := b.FindParentNode(value, b)
-	if parent == nil {
-		return
+	if value < b.Value {
+		b.Left = b.Left.Remove(value)
+		return b
+	} else if value > b.Value {
+		b.Right = b.Right.Remove(value)
+		return b
+	}
+	// if we are here we have found the node to remove
+
+	// CASE 1 - Leaf node
+	if b.IsLeafNode() {
+		return nil // return nil to replace current node with nil (no need to worry about any child nodes with leaf node)
 	}
 
-	if node.Value == parent.Value {
-		// TODO: how to handle root?
-	}
-
-	// Node is on parent's Right
-	if value > parent.Value {
-		if node.Right != nil {
-			replacement := node.Right
-			parent.Right = replacement
-			replacement.Left = node.Left
-			node = nil
-			return
+	// CASE 2 - Node has only 1 child
+	if b.Left == nil || b.Right == nil {
+		// If node has only a right child, then return this to replace the current node
+		if b.Right != nil {
+			return b.Right
 		}
 
-		if node.Left != nil {
-			replacement := node.Left
-			parent.Right = replacement
-			replacement.Right = node.Right
-			node = nil
-			return
-		}
-
-		// If we are here, it must be a leaf node
-		parent.Right = nil
-		node = nil
-		return
+		return b.Left // Otherwise it only has a left child, return that
 	}
 
-	// Node is on parent's Left
+	// CASE 3 - Node has 2 children
+	min := b.Right.FindMin()
+	b.Value = min.Value // Replace node's value with the minimum from the right tree
 
-	if node.Right != nil {
-		replacement := node.Right
-		parent.Left = replacement
-		replacement.Left = node.Left
-		node = nil
-		return
-	}
-
-	if node.Left != nil {
-		replacement := node.Left
-		parent.Left = replacement
-		replacement.Right = node.Right
-		node = nil
-		return
-	}
-
-	// If we are here, it must be a leaf node
-	parent.Left = nil
+	b.Right = b.Right.Remove(min.Value) // Now remove that value from the tree
+	return b
 }
 
 func (b *BST) Find(value int) *BST {
@@ -174,22 +149,6 @@ func (b *BST) Find(value int) *BST {
 	}
 
 	return b.Right.Find(value)
-}
-
-func (b *BST) FindParentNode(value int, parent *BST) *BST {
-	if b == nil {
-		return parent
-	}
-
-	if value == b.Value {
-		return parent
-	}
-
-	if value < b.Value {
-		return b.Left.FindParentNode(value, b)
-	}
-
-	return b.Right.FindParentNode(value, b)
 }
 
 func NewFromList(data []int) *BST {
