@@ -74,3 +74,39 @@ func BSTSearchExample() {
 	found = search.BSTSearch(bst, target)
 	fmt.Printf("search in binary search tree for %d: found: %v\n", target, found)
 }
+
+func BSTInsertAndRemovalExample() {
+	bst := binarysearchtree.NewFromList([]int{0, 1, 6, 7, 18})
+	fmt.Println("original:")
+	fmt.Println(bst.String())
+	fmt.Println("min: ", bst.FindMin())
+	fmt.Println("max: ", bst.FindMax())
+
+	fmt.Println("-----------------------------")
+	fmt.Println("insert 8, 27, 4, 3, 5, 17")
+	bst.Insert(8)
+	bst.Insert(27)
+	bst.Insert(4)
+	bst.Insert(3)
+	bst.Insert(5)
+	bst.Insert(17)
+	bst.Insert(-4)
+
+	fmt.Println("after insertion:")
+	fmt.Println(bst.String())
+
+	fmt.Println("min: ", bst.FindMin())
+	fmt.Println("max: ", bst.FindMax())
+
+	// fmt.Println("-----------------------------")
+	// fmt.Println("remove 17, 5, 3, 4, 27, 8")
+	// bst.Remove(17)
+	// bst.Remove(5)
+	// bst.Remove(3)
+	// bst.Remove(4)
+	// bst.Remove(27)
+	// bst.Remove(8)
+
+	// fmt.Println("after removal:")
+	// fmt.Println(bst.String())
+}

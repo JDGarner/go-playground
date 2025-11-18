@@ -6,15 +6,16 @@ import (
 )
 
 func main() {
-	AlgorithmExamples()
-	// ConcurrencyExamples()
+	// AlgorithmExamples()
+	ConcurrencyExamples()
 }
 
 func ConcurrencyExamples() {
 	// ***************************************
 	// Fan In Pattern
 	// ***************************************
-	concurrency.FanInExample()
+	// concurrency.FanInExample()
+	concurrency.FanInLoggerExample()
 
 	// ***************************************
 	// Generator Pattern
@@ -46,5 +47,6 @@ func SortingExamples() {
 
 func SearchExamples() {
 	// algorithms.BinarySearchExample()
-	algorithms.BSTSearchExample()
+	// algorithms.BSTSearchExample()
+	algorithms.BSTInsertAndRemovalExample()
 }

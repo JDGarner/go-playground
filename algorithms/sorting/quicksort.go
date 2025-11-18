@@ -50,7 +50,7 @@ func QuickSortNotInPlace(data []int) []int {
 	}
 
 	pivotIndex := len(data) - 1
-	pivot := data[len(data)-1]
+	pivot := data[pivotIndex]
 	pivotBoundary := 0
 
 	// Swap anything less than or equal to pivot to the pivotBoundary and increment pivotBoundary
@@ -63,7 +63,7 @@ func QuickSortNotInPlace(data []int) []int {
 	}
 
 	// Swap pivot element into place
-	data[pivotIndex], data[pivotBoundary] = data[pivotBoundary], data[pivotIndex]
+	data[pivotIndex], data[pivotBoundary] = data[pivotBoundary], pivot
 
 	left := QuickSortNotInPlace(data[:pivotBoundary])
 	right := QuickSortNotInPlace(data[pivotBoundary:])

@@ -15,9 +15,9 @@ func BSTSearch(bst *binarysearchtree.BST, target int) (found bool) {
 
 	if target < bst.Value {
 		return BSTSearch(bst.Left, target)
-	} else {
-		return BSTSearch(bst.Right, target)
 	}
+
+	return BSTSearch(bst.Right, target)
 }
 
 func BSTSearchNonRecursive(bst *binarysearchtree.BST, target int) (found bool) {

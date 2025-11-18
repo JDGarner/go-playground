@@ -2,7 +2,6 @@ package binarysearchtree
 
 import (
 	"fmt"
-	"strings"
 )
 
 type BST struct {
@@ -18,7 +17,11 @@ func New(value int) *BST {
 }
 
 func (b *BST) SetLeft(v int) error {
-	if v >= b.Value {
+	if v == b.Value {
+		return nil // Ignore duplicates
+	}
+
+	if v > b.Value {
 		return fmt.Errorf("left value must be less than its parent value (%d)", b.Value)
 	}
 
@@ -27,8 +30,12 @@ func (b *BST) SetLeft(v int) error {
 }
 
 func (b *BST) SetRight(v int) error {
+	if v == b.Value {
+		return nil // Ignore duplicates
+	}
+
 	if v < b.Value {
-		return fmt.Errorf("right value must be more than or equal to its parent value (%d)", b.Value)
+		return fmt.Errorf("right value must be more than its parent value (%d)", b.Value)
 	}
 
 	b.Right = New(v)
@@ -37,6 +44,152 @@ func (b *BST) SetRight(v int) error {
 
 func (b *BST) IsLeafNode() bool {
 	return b.Left == nil && b.Right == nil
+}
+
+func (b *BST) Insert(value int) *BST {
+	if b == nil {
+		return New(value)
+	}
+
+	if value < b.Value {
+		b.Left = b.Left.Insert(value)
+	} else {
+		b.Right = b.Right.Insert(value)
+	}
+
+	return b
+}
+
+func (b *BST) FindMin() int {
+	if b.Left == nil {
+		return b.Value
+	}
+
+	return b.Left.FindMin()
+}
+
+func (b *BST) FindMax() int {
+	if b.Right == nil {
+		return b.Value
+	}
+
+	return b.Right.FindMax()
+}
+
+func (b *BST) IsValid() bool {
+	if b.Left != nil && b.Value < b.Left.Value {
+		return false
+	}
+
+	if b.Right != nil && b.Value > b.Right.Value {
+		return false
+	}
+
+	leftValid := true
+	if b.Left != nil {
+		leftValid = b.Left.IsValid()
+	}
+
+	rightValid := true
+	if b.Right != nil {
+		rightValid = b.Right.IsValid()
+	}
+
+	return rightValid && leftValid
+}
+
+// TODO: redo:
+func (b *BST) Remove(value int) {
+	node := b.Find(value)
+	if node == nil {
+		return
+	}
+
+	parent := b.FindParentNode(value, b)
+	if parent == nil {
+		return
+	}
+
+	if node.Value == parent.Value {
+		// TODO: how to handle root?
+	}
+
+	// Node is on parent's Right
+	if value > parent.Value {
+		if node.Right != nil {
+			replacement := node.Right
+			parent.Right = replacement
+			replacement.Left = node.Left
+			node = nil
+			return
+		}
+
+		if node.Left != nil {
+			replacement := node.Left
+			parent.Right = replacement
+			replacement.Right = node.Right
+			node = nil
+			return
+		}
+
+		// If we are here, it must be a leaf node
+		parent.Right = nil
+		node = nil
+		return
+	}
+
+	// Node is on parent's Left
+
+	if node.Right != nil {
+		replacement := node.Right
+		parent.Left = replacement
+		replacement.Left = node.Left
+		node = nil
+		return
+	}
+
+	if node.Left != nil {
+		replacement := node.Left
+		parent.Left = replacement
+		replacement.Right = node.Right
+		node = nil
+		return
+	}
+
+	// If we are here, it must be a leaf node
+	parent.Left = nil
+}
+
+func (b *BST) Find(value int) *BST {
+	if b == nil {
+		return nil
+	}
+
+	if value == b.Value {
+		return b
+	}
+
+	if value < b.Value {
+		return b.Left.Find(value)
+	}
+
+	return b.Right.Find(value)
+}
+
+func (b *BST) FindParentNode(value int, parent *BST) *BST {
+	if b == nil {
+		return parent
+	}
+
+	if value == b.Value {
+		return parent
+	}
+
+	if value < b.Value {
+		return b.Left.FindParentNode(value, b)
+	}
+
+	return b.Right.FindParentNode(value, b)
 }
 
 func NewFromList(data []int) *BST {
@@ -61,50 +214,4 @@ func buildTree(data []int, start, end int) *BST {
 	bst.Right = buildTree(data, mid+1, end)
 
 	return bst
-}
-
-// (AI generated) String returns a pretty-printed representation of the binary search tree
-func (b *BST) String() string {
-	if b == nil {
-		return ""
-	}
-
-	var sb strings.Builder
-	b.printTree(&sb, "", "", true)
-	return sb.String()
-}
-
-// (AI generated) printTree recursively builds the tree string with proper formatting
-func (b *BST) printTree(sb *strings.Builder, prefix, childPrefix string, isRoot bool) {
-	if b == nil {
-		return
-	}
-
-	// Print current node
-	if isRoot {
-		sb.WriteString(fmt.Sprintf("%d\n", b.Value))
-	} else {
-		sb.WriteString(fmt.Sprintf("%s%d\n", prefix, b.Value))
-	}
-
-	// Determine if we have children
-	hasLeft := b.Left != nil
-	hasRight := b.Right != nil
-
-	// Print left subtree
-	if hasLeft {
-		if hasRight {
-			// More children coming, use ├──
-			b.Left.printTree(sb, childPrefix+"├── ", childPrefix+"│   ", false)
-		} else {
-			// Last child, use └──
-			b.Left.printTree(sb, childPrefix+"└── ", childPrefix+"    ", false)
-		}
-	}
-
-	// Print right subtree
-	if hasRight {
-		// Right child is always last
-		b.Right.printTree(sb, childPrefix+"└── ", childPrefix+"    ", false)
-	}
 }

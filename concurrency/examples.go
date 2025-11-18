@@ -28,6 +28,10 @@ func FanInExample() {
 	}
 }
 
+func FanInLoggerExample() {
+	fanin.Logger()
+}
+
 func TickerGeneratorExample() {
 	secondTicker := generator.Ticker(time.Second)
 
