@@ -46,6 +46,18 @@ func (b *BST) IsLeafNode() bool {
 	return b.Left == nil && b.Right == nil
 }
 
+func (b *BST) Traversal(f func (value int)) {
+	if b.Left != nil {
+		b.Left.Traversal(f)
+	}
+
+	f(b.Value)
+
+	if b.Right != nil {
+		b.Right.Traversal(f)
+	}
+}
+
 func (b *BST) Insert(value int) *BST {
 	if b == nil {
 		return New(value)

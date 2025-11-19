@@ -111,3 +111,32 @@ func BSTInsertAndRemovalExample() {
 	fmt.Println("after removal:")
 	fmt.Println(bst.String())
 }
+
+func BSTTraversalExample() {
+	bst := binarysearchtree.NewFromList([]int{0, 1, 6, 7, 18})
+	fmt.Println("tree:")
+	fmt.Println(bst.String())
+
+	fmt.Println("traversal:")
+	bst.Traversal(func(value int) {
+		fmt.Println("traversing: ", value)
+	})
+
+	fmt.Println("-----------------------------")
+	fmt.Println("insert 8, 27, 4, 3, 5, 17")
+	bst.Insert(8)
+	bst.Insert(27)
+	bst.Insert(4)
+	bst.Insert(3)
+	bst.Insert(5)
+	bst.Insert(17)
+	bst.Insert(-4)
+
+	fmt.Println("after insertion:")
+	fmt.Println(bst.String())
+
+	fmt.Println("traversal:")
+	bst.Traversal(func(value int) {
+		fmt.Println("traversing: ", value)
+	})
+}

@@ -48,5 +48,6 @@ func SortingExamples() {
 func SearchExamples() {
 	// algorithms.BinarySearchExample()
 	// algorithms.BSTSearchExample()
-	algorithms.BSTInsertAndRemovalExample()
+	// algorithms.BSTInsertAndRemovalExample()
+	algorithms.BSTTraversalExample()
 }
