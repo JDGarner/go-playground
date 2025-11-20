@@ -49,5 +49,6 @@ func SearchExamples() {
 	// algorithms.BinarySearchExample()
 	// algorithms.BSTSearchExample()
 	// algorithms.BSTInsertAndRemovalExample()
-	algorithms.BSTTraversalExample()
+	// algorithms.BSTDFSTraversalExample()
+	algorithms.BSTBFSTraversalExample()
 }

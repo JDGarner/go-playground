@@ -112,31 +112,29 @@ func BSTInsertAndRemovalExample() {
 	fmt.Println(bst.String())
 }
 
-func BSTTraversalExample() {
-	bst := binarysearchtree.NewFromList([]int{0, 1, 6, 7, 18})
+func BSTDFSTraversalExample() {
+	bst := binarysearchtree.NewFromList([]int{-4, 0, 1, 3, 4, 5, 6, 7, 8, 17, 18, 27})
 	fmt.Println("tree:")
 	fmt.Println(bst.String())
 
-	fmt.Println("traversal:")
-	bst.Traversal(func(value int) {
+	fmt.Println("dfs traversal:")
+	bst.DFSTraversal(func(value int) {
+		fmt.Println("traversing: ", value)
+	})
+}
+
+func BSTBFSTraversalExample() {
+	bst := binarysearchtree.NewFromList([]int{-4, 0, 1, 3, 4, 5, 6, 7, 8, 17, 18, 27})
+	fmt.Println("tree:")
+	fmt.Println(bst.String())
+
+	fmt.Println("bfs traversal:")
+	bst.BFSTraversal(func(value int) {
 		fmt.Println("traversing: ", value)
 	})
 
-	fmt.Println("-----------------------------")
-	fmt.Println("insert 8, 27, 4, 3, 5, 17")
-	bst.Insert(8)
-	bst.Insert(27)
-	bst.Insert(4)
-	bst.Insert(3)
-	bst.Insert(5)
-	bst.Insert(17)
-	bst.Insert(-4)
-
-	fmt.Println("after insertion:")
-	fmt.Println(bst.String())
-
-	fmt.Println("traversal:")
-	bst.Traversal(func(value int) {
+	fmt.Println("bfs traversal using queue:")
+	bst.BFSTraversalWithQueue(func(value int) {
 		fmt.Println("traversing: ", value)
 	})
 }

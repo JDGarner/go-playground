@@ -2,6 +2,8 @@ package binarysearchtree
 
 import (
 	"fmt"
+
+	"github.com/JDGarner/go-playground/datastructures/queue"
 )
 
 type BST struct {
@@ -46,15 +48,64 @@ func (b *BST) IsLeafNode() bool {
 	return b.Left == nil && b.Right == nil
 }
 
-func (b *BST) Traversal(f func (value int)) {
-	if b.Left != nil {
-		b.Left.Traversal(f)
+func (b *BST) DFSTraversal(f func(value int)) {
+	if b == nil {
+		return
+	}
+
+	b.Left.DFSTraversal(f)
+	f(b.Value)
+	b.Right.DFSTraversal(f)
+}
+
+func (b *BST) BFSTraversal(f func(value int)) {
+	if b == nil {
+		return
 	}
 
 	f(b.Value)
+	children := getImmediateChildren([]*BST{b})
 
-	if b.Right != nil {
-		b.Right.Traversal(f)
+	for len(children) > 0 {
+		for _, child := range children {
+			f(child.Value)
+		}
+
+		children = getImmediateChildren(children)
+	}
+}
+
+func getImmediateChildren(nodes []*BST) (children []*BST) {
+	for _, node := range nodes {
+		if node.Left != nil {
+			children = append(children, node.Left)
+		}
+		if node.Right != nil {
+			children = append(children, node.Right)
+		}
+	}
+
+	return children
+}
+
+func (b *BST) BFSTraversalWithQueue(f func(value int)) {
+	if b == nil {
+		return
+	}
+
+	q := queue.New[*BST]()
+	q.Add(b)
+
+	for q.Len() > 0 {
+		node := q.Pop()
+		f(node.Value)
+
+		if node.Left != nil {
+			q.Add(node.Left)
+		}
+		if node.Right != nil {
+			q.Add(node.Right)
+		}
 	}
 }
 
@@ -110,7 +161,7 @@ func (b *BST) IsValid() bool {
 	return rightValid && leftValid
 }
 
-func (b *BST) Remove(value int) (*BST) {
+func (b *BST) Remove(value int) *BST {
 	if b == nil {
 		return nil
 	}
