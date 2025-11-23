@@ -3,10 +3,12 @@ package main
 import (
 	"github.com/JDGarner/go-playground/algorithms"
 	"github.com/JDGarner/go-playground/concurrency"
+	"github.com/JDGarner/go-playground/datastructures/linkedlist"
 )
 
 func main() {
-	AlgorithmExamples()
+	// AlgorithmExamples()
+	DataStructureExamples()
 	// ConcurrencyExamples()
 }
 
@@ -35,20 +37,33 @@ func ConcurrencyExamples() {
 
 func AlgorithmExamples() {
 	// SortingExamples()
-	SearchExamples()
+	// SearchExamples()
+	// BinarySearchTreeExamples()
 }
 
 func SortingExamples() {
-	algorithms.BucketSortExample()
-	algorithms.InsertionSortExample()
-	algorithms.MergeSortExample()
-	algorithms.QuickSortExample()
+	// algorithms.BucketSortExample()
+	// algorithms.InsertionSortExample()
+	// algorithms.MergeSortExample()
+	// algorithms.QuickSortExample()
 }
 
 func SearchExamples() {
 	// algorithms.BinarySearchExample()
 	// algorithms.BSTSearchExample()
+}
+
+func DataStructureExamples() {
+	// BinarySearchTreeExamples()
+	LinkedListExamples()
+}
+
+func BinarySearchTreeExamples() {
 	// algorithms.BSTInsertAndRemovalExample()
 	// algorithms.BSTDFSTraversalExample()
 	algorithms.BSTBFSTraversalExample()
+}
+
+func LinkedListExamples() {
+	linkedlist.Example()
 }
