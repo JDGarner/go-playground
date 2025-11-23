@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	// AlgorithmExamples()
-	DataStructureExamples()
+	AlgorithmExamples()
+	// DataStructureExamples()
 	// ConcurrencyExamples()
 }
 
@@ -38,7 +38,7 @@ func ConcurrencyExamples() {
 func AlgorithmExamples() {
 	// SortingExamples()
 	// SearchExamples()
-	// BinarySearchTreeExamples()
+	BinarySearchTreeExamples()
 }
 
 func SortingExamples() {

@@ -94,17 +94,17 @@ func (b *BST) BFSTraversalWithQueue(f func(value int)) {
 	}
 
 	q := queue.New[*BST]()
-	q.Add(b)
+	q.Enqueue(b)
 
 	for q.Len() > 0 {
-		node := q.Pop()
+		node := q.Dequeue()
 		f(node.Value)
 
 		if node.Left != nil {
-			q.Add(node.Left)
+			q.Enqueue(node.Left)
 		}
 		if node.Right != nil {
-			q.Add(node.Right)
+			q.Enqueue(node.Right)
 		}
 	}
 }
