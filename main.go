@@ -55,13 +55,14 @@ func SearchExamples() {
 
 func DataStructureExamples() {
 	// BinarySearchTreeExamples()
-	LinkedListExamples()
+	// LinkedListExamples()
 }
 
 func BinarySearchTreeExamples() {
 	// algorithms.BSTInsertAndRemovalExample()
 	// algorithms.BSTDFSTraversalExample()
-	algorithms.BSTBFSTraversalExample()
+	// algorithms.BSTBFSTraversalExample()
+	algorithms.BacktrackingExample()
 }
 
 func LinkedListExamples() {

@@ -138,3 +138,16 @@ func BSTBFSTraversalExample() {
 		fmt.Println("traversing: ", value)
 	})
 }
+
+func BacktrackingExample() {
+	bst := binarysearchtree.NewFromList([]int{27, 3, 2, 27, 7, 27, 19, 27, 10})
+
+	fmt.Println(bst)
+
+	without27 := bst.HasPathWithout(27)
+	fmt.Println("has path without 27: ", without27)
+	without42 := bst.HasPathWithout(42)
+	fmt.Println("has path without 42: ", without42)
+	without3 := bst.HasPathWithout(3)
+	fmt.Println("has path without 3: ", without3)
+}
