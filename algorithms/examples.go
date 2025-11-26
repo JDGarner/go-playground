@@ -144,10 +144,17 @@ func BacktrackingExample() {
 
 	fmt.Println(bst)
 
-	without27 := bst.HasPathWithout(27)
-	fmt.Println("has path without 27: ", without27)
-	without42 := bst.HasPathWithout(42)
-	fmt.Println("has path without 42: ", without42)
-	without3 := bst.HasPathWithout(3)
-	fmt.Println("has path without 3: ", without3)
+	without := bst.HasPathWithout(27)
+	fmt.Println("has path without 27: ", without)
+	without = bst.HasPathWithout(42)
+	fmt.Println("has path without 42: ", without)
+	without = bst.HasPathWithout(3)
+	fmt.Println("has path without 3: ", without)
+
+	path, found := bst.FindPathWithout(27)
+	fmt.Println("path without 27: ", path, found)
+	path, found = bst.FindPathWithout(42)
+	fmt.Println("path without 42: ", path, found)
+	path, found = bst.FindPathWithout(3)
+	fmt.Println("path without 3: ", path, found)
 }
