@@ -3,12 +3,13 @@ package main
 import (
 	"github.com/JDGarner/go-playground/algorithms"
 	"github.com/JDGarner/go-playground/concurrency"
+	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/linkedlist"
 )
 
 func main() {
-	AlgorithmExamples()
-	// DataStructureExamples()
+	// AlgorithmExamples()
+	DataStructureExamples()
 	// ConcurrencyExamples()
 }
 
@@ -56,6 +57,7 @@ func SearchExamples() {
 func DataStructureExamples() {
 	// BinarySearchTreeExamples()
 	// LinkedListExamples()
+	BinaryHeapExamples()
 }
 
 func BinarySearchTreeExamples() {
@@ -63,6 +65,10 @@ func BinarySearchTreeExamples() {
 	// algorithms.BSTDFSTraversalExample()
 	// algorithms.BSTBFSTraversalExample()
 	algorithms.BacktrackingExample()
+}
+
+func BinaryHeapExamples() {
+	binaryheap.Example()
 }
 
 func LinkedListExamples() {
