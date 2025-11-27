@@ -12,7 +12,7 @@ func (b *BinaryHeap) String() string {
 	}
 	
 	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("%v\n", b.data))
+	sb.WriteString(fmt.Sprintf("%v\n", b.data[1:]))
 	b.printTree(&sb, 1, "", "")
 	return sb.String()
 }

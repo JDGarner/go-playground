@@ -14,4 +14,16 @@ func Example() {
 	heap.Push(2)
 
 	fmt.Println(heap)
+
+	pop, _ := heap.Pop()
+	fmt.Println("popped off: ", pop)
+	fmt.Println(heap)
+
+	pop, _ = heap.Pop()
+	fmt.Println("popped off: ", pop)
+	fmt.Println(heap)
+
+	pop, _ = heap.Pop()
+	fmt.Println("popped off: ", pop)
+	fmt.Println(heap)
 }

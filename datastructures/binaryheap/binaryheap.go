@@ -44,10 +44,72 @@ func (b *BinaryHeap) Push(value int) {
 	}
 }
 
-func (b *BinaryHeap) Pop() {
+// Removes the root node (the one at index position 1)
+// - Replace the root node with the the last node, then percolate it down:
+//   - keep swapping with the minimum value until reaching a leaf node OR it is smaller than minimum
+func (b *BinaryHeap) Pop() (int, bool) {
+	if b.Len() == 0 {
+		return 0, false
+	}
+	if b.Len() == 1 {
+		root := b.data[1]
+		b.data = b.data[:len(b.data)-1]
+		return root, true
+	}
 
+	// Swap root with last element
+	i := 1
+	root := b.data[i]
+	b.data[i] = b.data[b.Len()]
+
+	b.data = b.data[:len(b.data)-1] // Remove last element
+
+	for !b.IsLeafNodeIndex(i) {
+		minIndex := b.GetMinIndex(leftChild(i), rightChild(i))
+
+		if b.data[i] < b.data[minIndex] {
+			return root, true
+		}
+
+		b.data[minIndex], b.data[i] = b.data[i], b.data[minIndex]
+		i = minIndex
+	}
+
+	return root, true
 }
 
 func (b *BinaryHeap) Len() int {
 	return len(b.data) - 1
+}
+
+func (b *BinaryHeap) GetMinIndex(left, right int) int {
+	if b.Len()-1 < right {
+		return left
+	}
+
+	if b.data[left] < b.data[right] {
+		return left
+	}
+
+	return right
+}
+
+func (b *BinaryHeap) IsLeafNodeIndex(index int) bool {
+	return !b.HasLeftChild(index) && !b.HasRightChild(index)
+}
+
+func (b *BinaryHeap) HasLeftChild(index int) bool {
+	return b.Len() >= leftChild(index)
+}
+
+func (b *BinaryHeap) HasRightChild(index int) bool {
+	return b.Len() >= rightChild(index)
+}
+
+func leftChild(index int) (childIndex int) {
+	return index * 2
+}
+
+func rightChild(index int) (childIndex int) {
+	return (index * 2) + 1
 }
