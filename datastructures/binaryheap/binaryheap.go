@@ -83,7 +83,7 @@ func (b *BinaryHeap) Len() int {
 }
 
 func (b *BinaryHeap) GetMinIndex(left, right int) int {
-	if b.Len()-1 < right {
+	if b.Len() < right {
 		return left
 	}
 
@@ -112,4 +112,44 @@ func leftChild(index int) (childIndex int) {
 
 func rightChild(index int) (childIndex int) {
 	return (index * 2) + 1
+}
+
+func parent(index int) (parentIndex int) {
+	return index / 2
+}
+
+func Heapify(data []int) *BinaryHeap {
+	// Move first element to the end spot and set first index to 'null'
+	data = append(data, data[0])
+	data[0] = 0
+
+	b := &BinaryHeap{
+		data: data,
+	}
+
+	// start from the first node that has children (parent of last node)
+	startIndex := parent(b.Len())
+
+	// For each element in reverse
+	// - Percolate it down
+	for i := startIndex; i > 0; i-- {
+		b.percolateDown(i)
+	}
+
+	return b
+}
+
+func (b *BinaryHeap) percolateDown(i int) {
+	currentIndex := i
+
+	for !b.IsLeafNodeIndex(currentIndex) {
+		minIndex := b.GetMinIndex(leftChild(currentIndex), rightChild(currentIndex))
+
+		if b.data[currentIndex] > b.data[minIndex] {
+			b.data[currentIndex], b.data[minIndex] = b.data[minIndex], b.data[currentIndex]
+			currentIndex = minIndex
+		} else {
+			break
+		}
+	}
 }

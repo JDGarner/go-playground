@@ -57,7 +57,7 @@ func BSTSearchExample() {
 	bst.Right.SetLeft(6)
 	bst.Right.SetRight(19)
 
-	fmt.Println(bst.String())
+	fmt.Println(bst)
 
 	target := 19
 	found := search.BSTSearch(bst, target)
@@ -65,7 +65,7 @@ func BSTSearchExample() {
 
 	bst = binarysearchtree.NewFromList([]int{0, 1, 6, 7, 18})
 
-	fmt.Println(bst.String())
+	fmt.Println(bst)
 
 	target = 18
 	found = search.BSTSearch(bst, target)
@@ -78,7 +78,7 @@ func BSTSearchExample() {
 func BSTInsertAndRemovalExample() {
 	bst := binarysearchtree.NewFromList([]int{0, 1, 6, 7, 18})
 	fmt.Println("original:")
-	fmt.Println(bst.String())
+	fmt.Println(bst)
 	fmt.Println("min: ", bst.FindMin().Value)
 	fmt.Println("max: ", bst.FindMax().Value)
 
@@ -93,7 +93,7 @@ func BSTInsertAndRemovalExample() {
 	bst.Insert(-4)
 
 	fmt.Println("after insertion:")
-	fmt.Println(bst.String())
+	fmt.Println(bst)
 
 	fmt.Println("min: ", bst.FindMin().Value)
 	fmt.Println("max: ", bst.FindMax().Value)
@@ -109,13 +109,13 @@ func BSTInsertAndRemovalExample() {
 	bst.Remove(-4)
 
 	fmt.Println("after removal:")
-	fmt.Println(bst.String())
+	fmt.Println(bst)
 }
 
 func BSTDFSTraversalExample() {
 	bst := binarysearchtree.NewFromList([]int{-4, 0, 1, 3, 4, 5, 6, 7, 8, 17, 18, 27})
 	fmt.Println("tree:")
-	fmt.Println(bst.String())
+	fmt.Println(bst)
 
 	fmt.Println("dfs traversal:")
 	bst.DFSTraversal(func(value int) {
@@ -126,7 +126,7 @@ func BSTDFSTraversalExample() {
 func BSTBFSTraversalExample() {
 	bst := binarysearchtree.NewFromList([]int{-4, 0, 1, 3, 4, 5, 6, 7, 8, 17, 18, 27})
 	fmt.Println("tree:")
-	fmt.Println(bst.String())
+	fmt.Println(bst)
 
 	fmt.Println("bfs traversal:")
 	bst.BFSTraversal(func(value int) {

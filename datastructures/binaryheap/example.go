@@ -2,7 +2,7 @@ package binaryheap
 
 import "fmt"
 
-func Example() {
+func PushAndPopExample() {
 	heap := New()
 	heap.Push(7)
 	heap.Push(42)
@@ -25,5 +25,23 @@ func Example() {
 
 	pop, _ = heap.Pop()
 	fmt.Println("popped off: ", pop)
+	fmt.Println(heap)
+}
+
+func HeapifyExample() {
+	data := []int{60, 50, 80, 40, 30, 10, 70, 20, 90}
+	fmt.Println("data: ", data)
+
+	heap := Heapify(data)
+
+	fmt.Println("heapified:")
+	fmt.Println(heap)
+
+	data = []int{100, 101, 116, 107, 111, 115, 110, 106, 103, 116, 104}
+	fmt.Println("data: ", data)
+
+	heap = Heapify(data)
+
+	fmt.Println("heapified:")
 	fmt.Println(heap)
 }
