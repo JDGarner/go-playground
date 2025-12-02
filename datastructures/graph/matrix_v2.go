@@ -54,3 +54,50 @@ func (m *Matrix) isInBounds(node Node) bool {
 
 	return true
 }
+
+func (m *Matrix) GetUniquePathsV2() [][]Node {
+	start := Node{
+		row:    0,
+		column: 0,
+	}
+
+	visited := make(map[Node]bool)
+	allPaths := [][]Node{}
+	currentPath := []Node{}
+
+	m.collectPaths(start, visited, currentPath, &allPaths)
+
+	return allPaths
+}
+
+func (m *Matrix) collectPaths(node Node, visited map[Node]bool, currentPath []Node, allPaths *[][]Node) {
+	if !m.isInBounds(node) {
+		return
+	}
+
+	if m.data[node.row][node.column] != 0 {
+		return
+	}
+
+	if visited[node] {
+		return
+	}
+
+	currentPath = append(currentPath, node)
+
+	if m.isFinalNode(node) {
+		newPath := make([]Node, len(currentPath))
+		copy(newPath, currentPath)
+		*allPaths = append(*allPaths, newPath)
+		return
+	}
+
+	visited[node] = true
+
+	m.collectPaths(Node{node.row + 1, node.column}, visited, currentPath, allPaths)
+	m.collectPaths(Node{node.row, node.column + 1}, visited, currentPath, allPaths)
+	m.collectPaths(Node{node.row - 1, node.column}, visited, currentPath, allPaths)
+	m.collectPaths(Node{node.row, node.column - 1}, visited, currentPath, allPaths)
+
+	delete(visited, node)
+}
