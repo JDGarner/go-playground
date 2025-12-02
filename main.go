@@ -4,6 +4,7 @@ import (
 	"github.com/JDGarner/go-playground/algorithms"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
+	"github.com/JDGarner/go-playground/datastructures/graph"
 	"github.com/JDGarner/go-playground/datastructures/hashmap"
 	"github.com/JDGarner/go-playground/datastructures/linkedlist"
 )
@@ -59,7 +60,8 @@ func DataStructureExamples() {
 	// BinarySearchTreeExamples()
 	// LinkedListExamples()
 	// BinaryHeapExamples()
-	HashMapExamples()
+	// HashMapExamples()
+	GraphExamples()
 }
 
 func BinarySearchTreeExamples() {
@@ -80,4 +82,8 @@ func HashMapExamples() {
 
 func LinkedListExamples() {
 	linkedlist.Example()
+}
+
+func GraphExamples() {
+	graph.MatrixDFSExample()
 }
