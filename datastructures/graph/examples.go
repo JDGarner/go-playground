@@ -21,4 +21,7 @@ func MatrixDFSExample() {
 	for _, path := range uniquePaths {
 		fmt.Println(path)
 	}
+
+	uniquePathCount := m.CountUniquePaths()
+	fmt.Println(">>> v2 method, path count: ", uniquePathCount)
 }

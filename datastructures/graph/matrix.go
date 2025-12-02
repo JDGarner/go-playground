@@ -36,7 +36,7 @@ func (m *Matrix) GetUniquePaths() [][]Node {
 		},
 	}
 
-	return m.countHelper(currentPath)
+	return m.getPathHelper(currentPath)
 }
 
 // {0, 0, 0, 0},
@@ -49,7 +49,7 @@ func (m *Matrix) GetUniquePaths() [][]Node {
 //   - ignore nodes already in current path / non 0 values
 //
 // If we are at the end - increment counter
-func (m *Matrix) countHelper(currentPath []Node) [][]Node {
+func (m *Matrix) getPathHelper(currentPath []Node) [][]Node {
 	latestNode := currentPath[len(currentPath)-1]
 
 	if m.isFinalNode(latestNode) {
@@ -64,28 +64,28 @@ func (m *Matrix) countHelper(currentPath []Node) [][]Node {
 	right, ok := m.takeRightNode(latestNode, currentPath)
 	if ok {
 		currentPath = append(currentPath, *right)
-		paths = append(paths, m.countHelper(currentPath)...)
+		paths = append(paths, m.getPathHelper(currentPath)...)
 		currentPath = currentPath[:len(currentPath)-1]
 	}
 
 	down, ok := m.takeDownNode(latestNode, currentPath)
 	if ok {
 		currentPath = append(currentPath, *down)
-		paths = append(paths, m.countHelper(currentPath)...)
+		paths = append(paths, m.getPathHelper(currentPath)...)
 		currentPath = currentPath[:len(currentPath)-1]
 	}
 
 	left, ok := m.takeLeftNode(latestNode, currentPath)
 	if ok {
 		currentPath = append(currentPath, *left)
-		paths = append(paths, m.countHelper(currentPath)...)
+		paths = append(paths, m.getPathHelper(currentPath)...)
 		currentPath = currentPath[:len(currentPath)-1]
 	}
 
 	up, ok := m.takeUpNode(latestNode, currentPath)
 	if ok {
 		currentPath = append(currentPath, *up)
-		paths = append(paths, m.countHelper(currentPath)...)
+		paths = append(paths, m.getPathHelper(currentPath)...)
 		currentPath = currentPath[:len(currentPath)-1]
 	}
 
