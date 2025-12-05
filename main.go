@@ -85,5 +85,6 @@ func LinkedListExamples() {
 }
 
 func GraphExamples() {
-	graph.MatrixDFSExample()
+	// graph.MatrixDFSExample()
+	graph.MatrixBFSExample()
 }

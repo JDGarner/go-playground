@@ -1,60 +1,43 @@
 package queue
 
-type Queue[T comparable] struct {
-	head *Node[T]
-	tail *Node[T]
-	size int
+import (
+	"fmt"
+	"strings"
+)
+
+type Queue[T any] struct {
+	data []T
 }
 
-type Node[T comparable] struct {
-	value T
-	next  *Node[T]
+func New[T any]() *Queue[T] {
+	return &Queue[T]{
+		data: make([]T, 0),
+	}
 }
 
-func New[T comparable]() *Queue[T] {
-	return &Queue[T]{}
-}
-
-// a -> b -> c
-// 
-
-// Adds onto the end (tail) of the queue
+// Puts the value at the end of slice (back of the queue)
 func (q *Queue[T]) Enqueue(value T) {
-	node := &Node[T]{
-		value: value,
-	}
-
-	if q.tail != nil {
-		q.tail.next = node
-	}
-	q.tail = node
-
-	if q.head == nil {
-		q.head = node
-	}
-
-	q.size++
+	q.data = append(q.data, value)
 }
 
-// Remove from front (head) of the queue
+// Takes the value from front of slice (front of the queue)
 func (q *Queue[T]) Dequeue() T {
-	if q.size == 0 {
-		var zero T
-		return zero
-	}
+	first := q.data[0]
+	q.data = q.data[1:]
 
-	node := q.head
-	q.head = q.head.next
-
-	q.size--
-
-	if q.size == 0 {
-		q.tail = nil
-	}
-
-	return node.value
+	return first
 }
 
 func (q *Queue[T]) Len() int {
-	return q.size
+	return len(q.data)
+}
+
+func (q *Queue[T]) String() string {
+	var sb strings.Builder
+
+	for _, v := range q.data {
+		sb.WriteString(fmt.Sprintf("%v, ", v))
+	}
+
+	return sb.String()
 }

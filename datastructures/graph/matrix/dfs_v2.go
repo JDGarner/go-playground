@@ -1,4 +1,4 @@
-package graph
+package matrix
 
 // Count the number of unique paths to go from top left to bottom right.
 // Path can only move across 0s and cannot visit the same node twice.
