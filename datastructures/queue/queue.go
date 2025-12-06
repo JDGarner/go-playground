@@ -16,8 +16,8 @@ func New[T any]() *Queue[T] {
 }
 
 // Puts the value at the end of slice (back of the queue)
-func (q *Queue[T]) Enqueue(value T) {
-	q.data = append(q.data, value)
+func (q *Queue[T]) Enqueue(value ...T) {
+	q.data = append(q.data, value...)
 }
 
 // Takes the value from front of slice (front of the queue)

@@ -4,8 +4,8 @@ package matrix
 // Path can only move across 0s and cannot visit the same node twice.
 func (m *Matrix) CountUniquePaths() int {
 	start := Node{
-		row:    0,
-		column: 0,
+		Row:    0,
+		Column: 0,
 	}
 
 	visited := make(map[Node]bool)
@@ -18,7 +18,7 @@ func (m *Matrix) countHelper(node Node, visited map[Node]bool) int {
 		return 0
 	}
 
-	if m.data[node.row][node.column] != 0 {
+	if m.data[node.Row][node.Column] != 0 {
 		return 0
 	}
 
@@ -33,10 +33,10 @@ func (m *Matrix) countHelper(node Node, visited map[Node]bool) int {
 	visited[node] = true
 	count := 0
 
-	count += m.countHelper(Node{node.row + 1, node.column}, visited)
-	count += m.countHelper(Node{node.row, node.column + 1}, visited)
-	count += m.countHelper(Node{node.row - 1, node.column}, visited)
-	count += m.countHelper(Node{node.row, node.column - 1}, visited)
+	count += m.countHelper(Node{node.Row + 1, node.Column}, visited)
+	count += m.countHelper(Node{node.Row, node.Column + 1}, visited)
+	count += m.countHelper(Node{node.Row - 1, node.Column}, visited)
+	count += m.countHelper(Node{node.Row, node.Column - 1}, visited)
 
 	delete(visited, node)
 
@@ -44,11 +44,11 @@ func (m *Matrix) countHelper(node Node, visited map[Node]bool) int {
 }
 
 func (m *Matrix) isInBounds(node Node) bool {
-	if node.row < 0 || node.column < 0 {
+	if node.Row < 0 || node.Column < 0 {
 		return false
 	}
 
-	if node.row > len(m.data)-1 || node.column > len(m.data[node.row])-1 {
+	if node.Row > len(m.data)-1 || node.Column > len(m.data[node.Row])-1 {
 		return false
 	}
 
@@ -57,8 +57,8 @@ func (m *Matrix) isInBounds(node Node) bool {
 
 func (m *Matrix) GetUniquePathsV2() [][]Node {
 	start := Node{
-		row:    0,
-		column: 0,
+		Row:    0,
+		Column: 0,
 	}
 
 	visited := make(map[Node]bool)
@@ -75,7 +75,7 @@ func (m *Matrix) collectPaths(node Node, visited map[Node]bool, currentPath []No
 		return
 	}
 
-	if m.data[node.row][node.column] != 0 {
+	if m.data[node.Row][node.Column] != 0 {
 		return
 	}
 
@@ -94,10 +94,10 @@ func (m *Matrix) collectPaths(node Node, visited map[Node]bool, currentPath []No
 
 	visited[node] = true
 
-	m.collectPaths(Node{node.row + 1, node.column}, visited, currentPath, allPaths)
-	m.collectPaths(Node{node.row, node.column + 1}, visited, currentPath, allPaths)
-	m.collectPaths(Node{node.row - 1, node.column}, visited, currentPath, allPaths)
-	m.collectPaths(Node{node.row, node.column - 1}, visited, currentPath, allPaths)
+	m.collectPaths(Node{node.Row + 1, node.Column}, visited, currentPath, allPaths)
+	m.collectPaths(Node{node.Row, node.Column + 1}, visited, currentPath, allPaths)
+	m.collectPaths(Node{node.Row - 1, node.Column}, visited, currentPath, allPaths)
+	m.collectPaths(Node{node.Row, node.Column - 1}, visited, currentPath, allPaths)
 
 	delete(visited, node)
 }

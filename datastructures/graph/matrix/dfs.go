@@ -5,8 +5,8 @@ package matrix
 func (m *Matrix) GetUniquePaths() [][]Node {
 	currentPath := []Node{
 		{
-			row:    0,
-			column: 0,
+			Row:    0,
+			Column: 0,
 		},
 	}
 
@@ -69,8 +69,8 @@ func (m *Matrix) getPathHelper(currentPath []Node) [][]Node {
 func (m *Matrix) takeRightNode(node Node, currentPath []Node) (*Node, bool) {
 	return m.takeNode(
 		Node{
-			row:    node.row,
-			column: node.column + 1,
+			Row:    node.Row,
+			Column: node.Column + 1,
 		},
 		currentPath,
 	)
@@ -79,8 +79,8 @@ func (m *Matrix) takeRightNode(node Node, currentPath []Node) (*Node, bool) {
 func (m *Matrix) takeDownNode(node Node, currentPath []Node) (*Node, bool) {
 	return m.takeNode(
 		Node{
-			row:    node.row + 1,
-			column: node.column,
+			Row:    node.Row + 1,
+			Column: node.Column,
 		},
 		currentPath,
 	)
@@ -89,8 +89,8 @@ func (m *Matrix) takeDownNode(node Node, currentPath []Node) (*Node, bool) {
 func (m *Matrix) takeLeftNode(node Node, currentPath []Node) (*Node, bool) {
 	return m.takeNode(
 		Node{
-			row:    node.row,
-			column: node.column - 1,
+			Row:    node.Row,
+			Column: node.Column - 1,
 		},
 		currentPath,
 	)
@@ -99,8 +99,8 @@ func (m *Matrix) takeLeftNode(node Node, currentPath []Node) (*Node, bool) {
 func (m *Matrix) takeUpNode(node Node, currentPath []Node) (*Node, bool) {
 	return m.takeNode(
 		Node{
-			row:    node.row - 1,
-			column: node.column,
+			Row:    node.Row - 1,
+			Column: node.Column,
 		},
 		currentPath,
 	)
@@ -108,26 +108,26 @@ func (m *Matrix) takeUpNode(node Node, currentPath []Node) (*Node, bool) {
 
 // If there is a 0 value at the given node and it is not in the currentPath return it
 func (m *Matrix) takeNode(node Node, currentPath []Node) (*Node, bool) {
-	if node.row < 0 || node.row > len(m.data)-1 {
+	if node.Row < 0 || node.Row > len(m.data)-1 {
 		return nil, false
 	}
 
-	if node.column < 0 || node.column > len(m.data[node.row])-1 {
+	if node.Column < 0 || node.Column > len(m.data[node.Row])-1 {
 		return nil, false
 	}
 
-	if m.data[node.row][node.column] != 0 {
+	if m.data[node.Row][node.Column] != 0 {
 		return nil, false
 	}
 
 	for _, n := range currentPath {
-		if node.row == n.row && node.column == n.column {
+		if node.Row == n.Row && node.Column == n.Column {
 			return nil, false
 		}
 	}
 
 	return &Node{
-		row:    node.row,
-		column: node.column,
+		Row:    node.Row,
+		Column: node.Column,
 	}, true
 }

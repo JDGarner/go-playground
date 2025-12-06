@@ -37,8 +37,8 @@ func (m *Matrix) FindShortestPath() []Node {
 
 			for _, direction := range directions {
 				neighbour := Node{
-					row:    node.row + direction.row,
-					column: node.column + direction.column,
+					Row:    node.Row + direction.Row,
+					Column: node.Column + direction.Column,
 				}
 
 				if !m.isInBounds(neighbour) || m.isBlocked(neighbour) || visited[neighbour] {
@@ -59,7 +59,7 @@ func reconstructPath(childToParent map[Node]Node, start, end Node) []Node {
 	current := end
 	path := []Node{end}
 
-	for current.row != start.row || current.column != start.column {
+	for current.Row != start.Row || current.Column != start.Column {
 		path = append(path, childToParent[current])
 		current = childToParent[current]
 	}
@@ -97,8 +97,8 @@ func (m *Matrix) FindShortestPathLength() int {
 
 			for _, direction := range directions {
 				neighbour := Node{
-					row:    node.row + direction.row,
-					column: node.column + direction.column,
+					Row:    node.Row + direction.Row,
+					Column: node.Column + direction.Column,
 				}
 
 				if !m.isInBounds(neighbour) || m.isBlocked(neighbour) || visited[neighbour] {
