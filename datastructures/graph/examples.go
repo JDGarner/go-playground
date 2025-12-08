@@ -3,6 +3,7 @@ package graph
 import (
 	"fmt"
 
+	"github.com/JDGarner/go-playground/datastructures/graph/adjacencylist"
 	"github.com/JDGarner/go-playground/datastructures/graph/matrix"
 )
 
@@ -74,4 +75,37 @@ func MatrixBFSExample() {
 
 	shortestPath = m.FindShortestPath()
 	fmt.Println("shortestPath: ", shortestPath)
+}
+
+func AdjacencyListExample() {
+	edges := [][]string{
+		{"A", "B"},
+		{"A", "C"},
+		{"A", "D"},
+		{"B", "A"},
+		{"B", "C"},
+		{"C", "E"},
+		{"E", "D"},
+	}
+
+	adjList := adjacencylist.New(edges)
+
+	fmt.Println("Print example:")
+	fmt.Println(adjList)
+
+	edges = [][]string{
+		{"A", "B"},
+		{"A", "C"},
+		{"B", "A"},
+		{"B", "C"},
+		{"C", "E"},
+	}
+
+	adjList = adjacencylist.New(edges)
+	fmt.Println("DFS / BFS example:")
+	fmt.Println(adjList)
+
+	fmt.Println("DFS number of unique paths from A to E: ", adjList.DFSCountPaths("A", "E"))
+
+	fmt.Println("BFS shortest path from A to E: ", adjList.BFSShortestPath("A", "E"))
 }

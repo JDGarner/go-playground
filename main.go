@@ -11,8 +11,8 @@ import (
 )
 
 func main() {
-	AlgorithmExamples()
-	// DataStructureExamples()
+	// AlgorithmExamples()
+	DataStructureExamples()
 	// ConcurrencyExamples()
 }
 
@@ -88,5 +88,6 @@ func LinkedListExamples() {
 
 func GraphExamples() {
 	// graph.MatrixDFSExample()
-	graph.MatrixBFSExample()
+	// graph.MatrixBFSExample()
+	graph.AdjacencyListExample()
 }
