@@ -67,7 +67,6 @@ func (a AdjacencyList) DFS() {
 	for src, destinations := range a {
 		a.dfsHelper(visited, src, destinations)
 	}
-
 }
 
 func (a AdjacencyList) dfsHelper(visited map[string]struct{}, src string, dsts []string) {
@@ -107,16 +106,10 @@ func (a AdjacencyList) BFSShortestPath(start, end string) int {
 	}
 
 	for len(queue) > 0 {
-		fmt.Println(">>> queue: ", queue)
-
 		for range len(queue) {
 			// Dequeue
 			node := queue[0]
 			queue = queue[1:]
-
-			fmt.Println(">>> node: ", node)
-			fmt.Println(">>> visited: ", visited)
-			fmt.Println(">>> count: ", count)
 
 			if node == end {
 				return count
@@ -125,7 +118,7 @@ func (a AdjacencyList) BFSShortestPath(start, end string) int {
 			// for each neighbour, enqueue it if it has not been visited
 			for _, neighbour := range a[node] {
 				if _, ok := visited[neighbour]; !ok {
-					queue = append(queue, neighbour)
+					queue = append(queue, neighbour) // Enqueue
 					visited[neighbour] = struct{}{}
 				}
 			}
@@ -133,5 +126,5 @@ func (a AdjacencyList) BFSShortestPath(start, end string) int {
 		count++
 	}
 
-	return count
+	return -1 // not found
 }

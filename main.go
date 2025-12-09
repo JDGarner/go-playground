@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/graph/rottenfruit"
+	"github.com/JDGarner/go-playground/algorithms/dynamic"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -11,8 +11,8 @@ import (
 )
 
 func main() {
-	// AlgorithmExamples()
-	DataStructureExamples()
+	AlgorithmExamples()
+	// DataStructureExamples()
 	// ConcurrencyExamples()
 }
 
@@ -43,7 +43,8 @@ func AlgorithmExamples() {
 	// SortingExamples()
 	// SearchExamples()
 	// BinarySearchTreeExamples()
-	rottenfruit.RottenFruitExample()
+	// rottenfruit.RottenFruitExample()
+	dynamic.FibExample()
 }
 
 func SortingExamples() {
