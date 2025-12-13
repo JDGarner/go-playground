@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/misc/errgroup"
+	"github.com/JDGarner/go-playground/algorithms/graph/islands"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -46,7 +46,8 @@ func AlgorithmExamples() {
 	// rottenfruit.RottenFruitExample()
 	// dynamic.FibExample()
 	// courseschedule.CanFinishExample()
-	errgroup.Example()
+	// errgroup.Example()
+	islands.Example()
 }
 
 func SortingExamples() {
