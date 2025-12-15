@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/graph/islands"
+	"github.com/JDGarner/go-playground/algorithms/graph/waterflow"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -44,10 +44,11 @@ func AlgorithmExamples() {
 	// SearchExamples()
 	// BinarySearchTreeExamples()
 	// rottenfruit.RottenFruitExample()
-	// dynamic.FibExample()
+	// dynamic.CountPathsExample()
 	// courseschedule.CanFinishExample()
 	// errgroup.Example()
-	islands.Example()
+	// islands.Example()
+	waterflow.Example()
 }
 
 func SortingExamples() {

@@ -17,3 +17,6 @@ local/docker-build:
 
 start:
 	docker-compose up -d
+
+ratelimiter:
+	go run cmd/ratelimiter/main.go
