@@ -1,12 +1,16 @@
 package ratelimiter
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"net/http"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/redis/go-redis/v9"
 )
 
 // TODO:
@@ -16,10 +20,7 @@ type RateLimiter struct {
 	mu         sync.Mutex
 	limit      int
 	timeWindow time.Duration
-
-	// Map structure: key -> list of request timestamps
-	// key format: "path:ip" e.g. "/upload:192.168.1.1"
-	requests map[string][]time.Time
+	client     *redis.Client
 }
 
 type OptionFunc func(o *RateLimiter)
@@ -31,11 +32,18 @@ func WithLimit(limit int) OptionFunc {
 }
 
 func New(opts ...OptionFunc) *RateLimiter {
-	// defaults
+	client := redis.NewClient(&redis.Options{
+		Addr:         "localhost:6379",
+		DialTimeout:  1 * time.Second,
+		ReadTimeout:  1 * time.Second,
+		WriteTimeout: 1 * time.Second,
+		PoolSize:     10,
+	})
+
 	rl := &RateLimiter{
 		limit:      10,
 		timeWindow: 1 * time.Minute,
-		requests:   make(map[string][]time.Time),
+		client:     client,
 	}
 
 	for _, opt := range opts {
@@ -48,10 +56,12 @@ func New(opts ...OptionFunc) *RateLimiter {
 func (rl *RateLimiter) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ip := getIPAddress(r)
-		timestamp := time.Now().Truncate(rl.timeWindow).Format(time.RFC3339)
-		key := rl.GetRequestKey(ip, timestamp, r.URL.Path)
+		key := rl.GetRequestKey(r.URL.Path, ip)
 
-		allowed, remaining, resetAt := rl.CheckRateLimit(key)
+		allowed, remaining, resetAt, err := rl.CheckRateLimit(r.Context(), key)
+		if err != nil {
+			fmt.Println(">>> err: ", err)
+		}
 
 		fmt.Printf(">>> allowed: %v, remaining: %d, resetAt: %v ", allowed, remaining, resetAt)
 
@@ -67,46 +77,82 @@ func (rl *RateLimiter) Middleware(next http.Handler) http.Handler {
 	})
 }
 
-func (rl *RateLimiter) GetRequestKey(ip, timestamp, path string) string {
-	return fmt.Sprintf("%s:%s-%s", path, ip, timestamp)
+func (rl *RateLimiter) GetRequestKey(path, ip string) string {
+	return fmt.Sprintf("rate-limit:%s:%s", path, ip)
 }
 
 func (rl *RateLimiter) CheckRateLimit(
+	ctx context.Context,
 	key string,
-) (allowed bool, remaining int, resetAt time.Time) {
+) (allowed bool, remaining int, resetAt time.Time, err error) {
 	rl.mu.Lock()
 	defer rl.mu.Unlock()
-	fmt.Printf("Rate limiter check for: %s requests %v\n", key, rl.requests[key])
+	fmt.Printf("Rate limiter check for: %s\n", key)
 
 	now := time.Now()                          // e.g. 15:01:30
 	windowStart := now.Add(-1 * rl.timeWindow) // 15:00:30
 
-	requests := rl.requests[key]
+	// Use pipeline for efficiency
+	pipe := rl.client.Pipeline()
 
-	// Get only the requests with timestamp after windowStart (e.g. in last minute)
-	validRequests := make([]time.Time, 0)
-	for _, req := range requests {
-		if req.After(windowStart) {
-			validRequests = append(validRequests, req)
+	// Remove anything from sorted set (ZSET) before the windowStart time
+	pipe.ZRemRangeByScore(ctx, key, "0", fmt.Sprintf("%d", windowStart.UnixNano()))
+
+	// Count number of entries (will be num of entries in window since we removed everything with earlier timestamp)
+	zcard := pipe.ZCard(ctx, key)
+
+	_, err = pipe.Exec(ctx)
+	if err != nil {
+		return false, 0, time.Time{}, fmt.Errorf("redis pipeline error: %w", err)
+	}
+
+	numOfRequests := zcard.Val()
+
+	if numOfRequests >= int64(rl.limit) {
+		// Get oldest entry to calculate reset time
+		oldestEntries, err := rl.client.ZRange(ctx, key, 0, 0).Result()
+		if err != nil || len(oldestEntries) == 0 {
+			resetAt = now.Add(rl.timeWindow)
+		} else {
+			// Parse timestamp from oldest entry
+			oldestTime, err := strconv.ParseInt(oldestEntries[0], 10, 64)
+			if err != nil {
+				return false, 0, time.Time{}, fmt.Errorf("redis pipeline error: %w", err)
+			}
+
+			resetAt = time.Unix(0, oldestTime).Add(rl.timeWindow)
 		}
+
+		return false, 0, resetAt, nil
 	}
 
-	if len(validRequests) > rl.limit {
-		// Rate limited
-		// Find the oldest request to determine when the window resets
-		oldestTimestamp := validRequests[0]
-		resetAt = oldestTimestamp.Add(rl.timeWindow)
+	// Not rate limited
+	// -------------------------
 
-		return false, 0, resetAt
+	// Add current request to sorted set
+	// Score = timestamp (for sorting), Member = timestamp
+	score := float64(now.UnixNano())
+	member := fmt.Sprintf("%d", now.UnixNano())
+
+	pipe2 := rl.client.Pipeline()
+	pipe2.ZAdd(ctx, key, redis.Z{
+		Score:  score,
+		Member: member,
+	})
+
+	// Set expiration to window duration to prevent memory leaks
+	// Add buffer to handle edge cases
+	pipe2.Expire(ctx, key, rl.timeWindow+(30*time.Second))
+
+	_, err = pipe2.Exec(ctx)
+	if err != nil {
+		return false, 0, time.Time{}, fmt.Errorf("redis add error: %w", err)
 	}
 
-	validRequests = append(validRequests, now)
-
-	rl.requests[key] = validRequests
-	remaining = rl.limit - len(validRequests)
+	remaining = rl.limit - int(numOfRequests) - 1 // -1 for the request we just added
 	resetAt = now.Add(rl.timeWindow)
 
-	return true, remaining, resetAt
+	return true, remaining, resetAt, nil
 }
 
 func getIPAddress(r *http.Request) string {

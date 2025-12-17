@@ -45,8 +45,7 @@ func New(opts ...OptionFunc) *RateLimiter {
 func (rl *RateLimiter) Middleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ip := getIPAddress(r)
-		timestamp := time.Now().Truncate(rl.timeWindow).Format(time.RFC3339)
-		key := rl.GetRequestKey(ip, timestamp, r.URL.Path)
+		key := rl.GetRequestKey(r.URL.Path, ip)
 
 		allowed, remaining, resetAt := rl.CheckRateLimit(key)
 
@@ -64,8 +63,8 @@ func (rl *RateLimiter) Middleware(next http.Handler) http.Handler {
 	})
 }
 
-func (rl *RateLimiter) GetRequestKey(ip, timestamp, path string) string {
-	return fmt.Sprintf("%s:%s-%s", path, ip, timestamp)
+func (rl *RateLimiter) GetRequestKey(path, ip string) string {
+	return fmt.Sprintf("%s:%s", path, ip)
 }
 
 func (rl *RateLimiter) CheckRateLimit(
