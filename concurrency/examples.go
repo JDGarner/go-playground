@@ -43,9 +43,19 @@ func TickerGeneratorExample() {
 }
 
 func FanOutExample() {
+	strings1 := generator.Strings("hello", "my", "name", "is", "ham", "and", "bacon", "goodbye")
+
+	fanout.FanOut(strings1, 3)
+}
+
+func FanOutJobsExample() {
+	fanout.FanOutJobs()
+}
+
+func FanOutBroadcastExample() {
 	strings1 := generator.Strings("hello", "my", "name", "is", "ham")
 
-	outputs := fanout.New(strings1, 3)
+	outputs := fanout.FanOutBroadcast(strings1, 3)
 
 	var wg sync.WaitGroup
 

@@ -5,7 +5,8 @@ import (
 )
 
 // read from a single channel, fan out to many channels
-func New(input <-chan string, count int) []chan string {
+// each returned channel reads all the messages from input
+func FanOutBroadcast(input <-chan string, count int) []chan string {
 	outputs := make([]chan string, count)
 	// Initialize all output channels
 	for i := range outputs {

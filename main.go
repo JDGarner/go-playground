@@ -27,6 +27,8 @@ func ConcurrencyExamples() {
 	// Fan Out Pattern
 	// ***************************************
 	concurrency.FanOutExample()
+	// concurrency.FanOutBroadcastExample()
+	// concurrency.FanOutJobsExample()
 
 	// ***************************************
 	// Generator Pattern
