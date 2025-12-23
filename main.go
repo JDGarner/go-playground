@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/graph/regions"
+	"github.com/JDGarner/go-playground/algorithms/backtracking"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -11,9 +11,9 @@ import (
 )
 
 func main() {
-	AlgorithmExamples()
+	// AlgorithmExamples()
 	// DataStructureExamples()
-	// ConcurrencyExamples()
+	ConcurrencyExamples()
 }
 
 func ConcurrencyExamples() {
@@ -21,7 +21,12 @@ func ConcurrencyExamples() {
 	// Fan In Pattern
 	// ***************************************
 	// concurrency.FanInExample()
-	concurrency.FanInLoggerExample()
+	// concurrency.FanInLoggerExample()
+
+	// ***************************************
+	// Fan Out Pattern
+	// ***************************************
+	concurrency.FanOutExample()
 
 	// ***************************************
 	// Generator Pattern
@@ -54,7 +59,8 @@ func AlgorithmExamples() {
 	// array.RotatedSortedExample()
 	// trees.KthSmallestNode()
 	// backtracking.WordSearchExample()
-	regions.SurroundedRegionsExample()
+	backtracking.WordSearch2Example()
+	// regions.SurroundedRegionsExample()
 }
 
 func SortingExamples() {

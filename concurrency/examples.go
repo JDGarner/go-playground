@@ -9,9 +9,11 @@ import (
 	"io"
 	"math/rand"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/JDGarner/go-playground/concurrency/fanin"
+	"github.com/JDGarner/go-playground/concurrency/fanout"
 	"github.com/JDGarner/go-playground/concurrency/firstresponse"
 	"github.com/JDGarner/go-playground/concurrency/generator"
 )
@@ -38,6 +40,24 @@ func TickerGeneratorExample() {
 	for range 4 {
 		fmt.Println(<-secondTicker)
 	}
+}
+
+func FanOutExample() {
+	strings1 := generator.Strings("hello", "my", "name", "is", "ham")
+
+	outputs := fanout.New(strings1, 3)
+
+	var wg sync.WaitGroup
+
+	for i, output := range outputs {
+		wg.Go(func() {
+			for val := range output {
+				fmt.Println(">>> val, i: ", val, i)
+			}
+		})
+	}
+
+	wg.Wait()
 }
 
 func TickerWithDoneChannel() {
