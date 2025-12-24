@@ -11,9 +11,9 @@ import (
 )
 
 func main() {
-	// AlgorithmExamples()
+	AlgorithmExamples()
 	// DataStructureExamples()
-	ConcurrencyExamples()
+	// ConcurrencyExamples()
 }
 
 func ConcurrencyExamples() {
@@ -61,7 +61,8 @@ func AlgorithmExamples() {
 	// array.RotatedSortedExample()
 	// trees.KthSmallestNode()
 	// backtracking.WordSearchExample()
-	backtracking.WordSearch2Example()
+	// backtracking.WordSearch2Example()
+	backtracking.CombinationSumExample()
 	// regions.SurroundedRegionsExample()
 }
 

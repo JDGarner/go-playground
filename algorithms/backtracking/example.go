@@ -33,3 +33,9 @@ func WordSearch2Example() {
 	words := []string{"oa", "oaa"}
 	fmt.Printf("Which words from '%v' exist? %v\n", words, findWords(board, words))
 }
+
+func CombinationSumExample() {
+	res := combinationSum([]int{2, 5, 6, 9}, 9)
+
+	fmt.Println(">>> res: ", res)
+}
