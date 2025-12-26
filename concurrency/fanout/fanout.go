@@ -20,6 +20,8 @@ func FanOut(input <-chan string, workerCount int) {
 	wg.Wait()
 }
 
+// Each works ranges through the same channel, reading from it as soon
+// as they are finished with the last task/job
 func stringWorker(input <-chan string, worker int) {
 	for val := range input {
 		time.Sleep(500 * time.Millisecond)
