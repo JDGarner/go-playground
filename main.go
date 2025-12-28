@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/backtracking"
+	"github.com/JDGarner/go-playground/algorithms/misc/numberboard"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -62,8 +62,9 @@ func AlgorithmExamples() {
 	// trees.KthSmallestNode()
 	// backtracking.WordSearchExample()
 	// backtracking.WordSearch2Example()
-	backtracking.CombinationSumExample()
+	// backtracking.CombinationSumExample()
 	// regions.SurroundedRegionsExample()
+	numberboard.SnakesAndLaddersExample()
 }
 
 func SortingExamples() {
