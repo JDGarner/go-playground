@@ -22,3 +22,30 @@ func RotatedSortedExample() {
 	// res = findMin([]int{2, 3, 4, 5, 6, 1})
 	// fmt.Println(">>> res: ", res)
 }
+
+func SpiralMatrixExample() {
+	// matrix := [][]int{
+	// 	{1, 2, 3, 4},
+	// 	{5, 6, 7, 8},
+	// 	{9, 10, 11, 12},
+	// }
+
+	// expected output: [1,2,3,4,8,12,11,10,9,5,6,7]
+
+	// res := spiralOrder(matrix)
+	// fmt.Println(">>> res: ", res)
+
+	matrix2 := [][]int{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 10, 11, 12},
+		{13, 14, 15, 16},
+		{17, 18, 19, 20},
+		{21, 22, 23, 24},
+	}
+
+	// expected output: [1,2,3,4,8,12,16,20,24,23,22,21,17,13,9,5,6,7,11,15,19,18,14,10]
+
+	res2 := spiralOrder(matrix2)
+	fmt.Println(">>> res2: ", res2)
+}
