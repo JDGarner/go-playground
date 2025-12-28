@@ -44,12 +44,98 @@ package numberboard
 // fmt.Println(">>> with numRolls: ", numRolls)
 // fmt.Println(">>> places reachable: ", queue)
 
+func snakesAndLadders(board [][]int) int {
+	flatBoard := flatten(board)
+
+	numRolls := 0
+	queue := []int{0}
+	visited := make([]bool, len(flatBoard))
+
+	for len(queue) > 0 {
+		for range len(queue) {
+			current := queue[0]
+			queue = queue[1:]
+
+			for roll := 1; roll < 7; roll++ {
+				landing := getFinalLandingTile2(flatBoard, current, roll)
+
+				if landing == len(flatBoard)-1 {
+					return numRolls + 1
+				}
+
+				if visited[landing] {
+					continue
+				}
+
+				visited[landing] = true
+				queue = append(queue, landing)
+			}
+		}
+		numRolls++
+	}
+
+	return -1
+}
+
+func flatten(board [][]int) []int {
+	numRows, numCols := len(board), len(board[0])
+	flat := make([]int, 0, numRows*numCols)
+
+	// Loop through the rows in reverse
+	for r := numRows - 1; r >= 0; r-- {
+
+		direction := getDirection2(numRows, r)
+
+		// depending on the direction, fill up the array going forward/backward
+		if direction == 1 {
+			for i := 0; i < numCols; i++ {
+				flat = append(flat, board[r][i])
+			}
+		} else {
+			for i := numCols - 1; i >= 0; i-- {
+				flat = append(flat, board[r][i])
+			}
+		}
+	}
+
+	return flat
+}
+
+func getFinalLandingTile2(flatBoard []int, current, numSteps int) int {
+	landing := current + numSteps
+	boardValue := flatBoard[landing]
+
+	// if value is a snake/ladder get the tile with that number of steps
+	if boardValue != -1 {
+		return boardValue - 1
+	}
+
+	return landing
+}
+
+func getDirection2(numRows, currentRow int) int {
+	// if total number of rows is even, then we move right on odd rows
+	if numRows%2 == 0 {
+		// (e.g. on a 4x4 grid bottom row is index 3 and we move right)
+		if currentRow%2 == 0 {
+			return -1
+		}
+		return 1
+	}
+
+	// Otherwise we move right on even rows
+	if currentRow%2 == 0 {
+		return 1
+	}
+	return -1
+}
+
 type Tile struct {
 	Row int
 	Col int
 }
 
-func snakesAndLadders(board [][]int) int {
+func snakesAndLaddersFirstImpl(board [][]int) int {
 	numRows, numCols := len(board), len(board[0])
 	numRolls := 0
 	queue := []Tile{
