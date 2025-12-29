@@ -30,9 +30,6 @@ package waterflow
 
 // Output: [[0,0],[0,1]]
 
-// For each cell:
-// - is there a path to the top or left AND bottom or right
-
 type Pair struct {
 	Row int
 	Col int
@@ -45,7 +42,83 @@ var directions = []Pair{
 	{-1, 0}, // up
 }
 
+// - for each atlanic ocean cell (bottom & right):
+//   - visit all the cells that can be reached, mark it as reached until can't
+//     continue
+// - repeat for pacific
+// - keep track of alanticVisited and pacificVisited
+// - return union of alanticVisited and pacificVisited
+
 func pacificAtlantic(heights [][]int) [][]int {
+	numRows, numCols := len(heights), len(heights[0])
+	res := [][]int{}
+
+	atlanticVisited := map[Pair]bool{}
+	pacificVisited := map[Pair]bool{}
+
+	var dfs func(p Pair, visited map[Pair]bool)
+	dfs = func(p Pair, visited map[Pair]bool) {
+		for _, direction := range directions {
+			neighbour := Pair{p.Row + direction.Row, p.Col + direction.Col}
+			if neighbour.Row < 0 || neighbour.Col < 0 {
+				continue
+			}
+			if neighbour.Row >= numRows || neighbour.Col >= numCols {
+				continue
+			}
+			if visited[neighbour] {
+				continue
+			}
+			// if neighbour is more or equal than p then neighbour's water can flow down into p
+			if heights[neighbour.Row][neighbour.Col] >= heights[p.Row][p.Col] {
+				visited[neighbour] = true
+				dfs(neighbour, visited)
+			}
+		}
+
+	}
+
+	// Bottom row (atlantic)
+	for c := range numCols {
+		start := Pair{numRows - 1, c}
+		atlanticVisited[start] = true
+		dfs(start, atlanticVisited)
+	}
+
+	// Right row (atlantic)
+	for r := range numRows {
+		start := Pair{r, numCols - 1}
+		atlanticVisited[start] = true
+		dfs(start, atlanticVisited)
+	}
+
+	// Top row (pacific)
+	for c := range numCols {
+		start := Pair{0, c}
+		pacificVisited[start] = true
+		dfs(start, pacificVisited)
+	}
+
+	// Left row (pacific)
+	for r := range numRows {
+		start := Pair{r, 0}
+		pacificVisited[start] = true
+		dfs(start, pacificVisited)
+	}
+
+	for pair := range atlanticVisited {
+		if pacificVisited[pair] {
+			res = append(res, []int{pair.Row, pair.Col})
+		}
+	}
+
+	return res
+}
+
+// For each cell:
+// - is there a path to the top or left AND bottom or right
+
+func PacificAtlanticFirstImpl(heights [][]int) [][]int {
 	result := [][]int{}
 	rows, cols := len(heights), len(heights[0])
 

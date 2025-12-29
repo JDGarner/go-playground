@@ -44,6 +44,21 @@ package numberboard
 // fmt.Println(">>> with numRolls: ", numRolls)
 // fmt.Println(">>> places reachable: ", queue)
 
+// TIME COMPLEXITY:
+// -----------------------------------
+// The time complexity of this algorithm is O(n²),
+// where n is the dimension of the board (an n×n board has n² cells).
+
+// 1. BFS visits each cell at most once:
+// The visited array ensures each of the n² cells is added to the queue at most once
+// Once a cell is marked as visited, it's never processed again
+
+// 2. Work per cell:
+// For each cell visited, we check 6 possible dice rolls (constant time per cell)
+// getFinalLandingTile2 is O(1) - just array lookups and simple arithmetic
+// So each cell does O(6) = O(1) work
+// -----------------------------------
+
 func snakesAndLadders(board [][]int) int {
 	flatBoard := flatten(board)
 
