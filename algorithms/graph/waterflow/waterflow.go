@@ -75,7 +75,6 @@ func pacificAtlantic(heights [][]int) [][]int {
 				dfs(neighbour, visited)
 			}
 		}
-
 	}
 
 	// Bottom row (atlantic)

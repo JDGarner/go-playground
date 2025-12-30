@@ -1,47 +1,55 @@
 package trees
 
-// Given a binary search tree (BST) where all node values are unique,
-// and two nodes from the tree p and q, return the lowest common ancestor (LCA)
-// of the two nodes.
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	var dfs func(current, target *TreeNode, path *[]*TreeNode) bool
 
-// The lowest common ancestor between two nodes p and q is the lowest node in a tree T
-// such that both p and q as descendants.
-// The ancestor is allowed to be a descendant of itself.
+	dfs = func(current, target *TreeNode, path *[]*TreeNode) bool {
+		if current == nil {
+			return false
+		}
 
-// Input: root = [5,3,8,1,4,7,9,null,2], p = 3, q = 8
-// Output: 5
+		*path = append(*path, current)
 
-// Input: root = [5,3,8,1,4,7,9,null,2], p = 3, q = 4
-// Output: 3
+		if current.Val == target.Val {
+			return true
+		}
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
+		// explore left and right
+		if dfs(current.Left, target, path) {
+			return true
+		}
+		if dfs(current.Right, target, path) {
+			return true
+		}
 
-func lowestCommonAncestor(root *TreeNode, p *TreeNode, q *TreeNode) *TreeNode {
-	min, max := getMinMax(p, q)
+		// if it wasn't found in either, remove current from path
+		*path = (*path)[:len(*path)-1]
 
-	return lcaHelper(root, min, max)
-}
-
-func lcaHelper(root, min, max *TreeNode) *TreeNode {
-	if max.Val >= root.Val && min.Val <= root.Val {
-		return root
+		return false
 	}
 
-	if min.Val <= root.Val && max.Val <= root.Val {
-		return lcaHelper(root.Left, min, max)
+	pPath := []*TreeNode{}
+	qPath := []*TreeNode{}
+
+	dfs(root, p, &pPath)
+	dfs(root, q, &qPath)
+
+	result := &TreeNode{}
+
+	// p = [1, 2]
+	// q = [1]
+
+	// iterate through pPath and qPath until they diverge, return that node
+	for i, v := range pPath {
+		if i == len(qPath) {
+			break
+		}
+
+		if qPath[i] != v {
+			break
+		}
+		result = v
 	}
 
-	return lcaHelper(root.Right, min, max)
-}
-
-func getMinMax(p *TreeNode, q *TreeNode) (min, max *TreeNode) {
-	if p.Val < q.Val {
-		return p, q
-	}
-
-	return q, p
+	return result
 }
