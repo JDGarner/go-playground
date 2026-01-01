@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/graph/waterflow"
+	"github.com/JDGarner/go-playground/algorithms/intervals"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -55,7 +55,7 @@ func AlgorithmExamples() {
 	// courseschedule.CanFinishExample()
 	// errgroup.Example()
 	// islands.Example()
-	waterflow.Example()
+	// waterflow.Example()
 	// array.ProductExceptSelfExample()
 	// slidingwindow.CharacterReplacementExample()
 	// array.RotatedSortedExample()
@@ -66,6 +66,7 @@ func AlgorithmExamples() {
 	// regions.SurroundedRegionsExample()
 	// numberboard.SnakesAndLaddersExample()
 	// array.SpiralMatrixExample()
+	intervals.MergeIntervalsExample()
 }
 
 func SortingExamples() {
