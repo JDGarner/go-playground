@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/intervals"
+	"github.com/JDGarner/go-playground/algorithms/backtracking"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -66,7 +66,10 @@ func AlgorithmExamples() {
 	// regions.SurroundedRegionsExample()
 	// numberboard.SnakesAndLaddersExample()
 	// array.SpiralMatrixExample()
-	intervals.MergeIntervalsExample()
+	// intervals.MergeIntervalsExample()
+	// heap.LastStoneExample()
+	// array.MajorityElementExample()
+	backtracking.BacktrackingExample()
 }
 
 func SortingExamples() {

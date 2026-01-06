@@ -39,3 +39,25 @@ func CombinationSumExample() {
 
 	fmt.Println(">>> res: ", res)
 }
+
+func BacktrackingExample() {
+	// res := subsets([]int{1, 2, 3})
+	// res := subsetsWithDup([]int{1, 2, 1})
+
+	// fmt.Println(">>> res: ", res)
+
+	// res := permute([]int{1, 2, 3})
+	// fmt.Println(">>> res: ", res)
+
+	// res := combine(3, 2)
+	// fmt.Println(">>> res: ", res)
+
+	// res := letterCombinations("34")
+	// fmt.Println(">>> res: ", res)
+
+	// res := generateParenthesis(3)
+	// fmt.Println(">>> res: ", res)
+
+	res := partition("aab")
+	fmt.Println(">>> res: ", res)
+}

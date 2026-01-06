@@ -27,6 +27,10 @@ import (
 // equal to the end value of the first interval.
 
 func merge(intervals [][]int) [][]int {
+	if len(intervals) == 0 {
+		return [][]int{}
+	}
+
 	// Sort by starting interval
 	slices.SortFunc(intervals, func(a, b []int) int {
 		if a[0] < b[0] {

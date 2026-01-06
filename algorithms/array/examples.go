@@ -49,3 +49,9 @@ func SpiralMatrixExample() {
 	res2 := spiralOrder(matrix2)
 	fmt.Println(">>> res2: ", res2)
 }
+
+func MajorityElementExample() {
+	// res := majorityElement1([]int{1, 1, 2, 2, 3, 3, 1, 2})
+	res := majorityElement([]int{1, 1, 2, 2, 3, 3, 1, 2})
+	fmt.Println(">>> res: ", res)
+}
