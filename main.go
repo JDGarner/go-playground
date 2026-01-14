@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/JDGarner/go-playground/algorithms"
-	"github.com/JDGarner/go-playground/algorithms/binarysearch"
+	"github.com/JDGarner/go-playground/algorithms/array"
 	"github.com/JDGarner/go-playground/concurrency"
 	"github.com/JDGarner/go-playground/datastructures/binaryheap"
 	"github.com/JDGarner/go-playground/datastructures/graph"
@@ -71,7 +71,9 @@ func AlgorithmExamples() {
 	// array.MajorityElementExample()
 	// backtracking.BacktrackingExample()
 	// dynamic.DynamicExample()
-	binarysearch.BinarySearchExample()
+	// binarysearch.BinarySearchExample()
+	// searchwords.SearchWordsExample()
+	array.ArrayExample()
 }
 
 func SortingExamples() {

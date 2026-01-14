@@ -1,5 +1,7 @@
 package snakegame
 
+import "container/list"
+
 // Design a Snake game that is played on a device with screen size height x width.
 // Play the game online if you are not familiar with the game.
 
@@ -148,13 +150,13 @@ func (g *SnakeGame) isOutOfBounds(c Cell) bool {
 	return false
 }
 
-type Snake struct {
-	body []Cell
-}
-
 // for the snake, we can count the last position as the head of the snake
 // and the first as the tail. So then we can just append onto it, which is quicker than
 // always inserting into the start of the slice. Could use a linked list alternatively.
+
+type Snake struct {
+	body []Cell
+}
 
 func NewSnake() *Snake {
 	return &Snake{
@@ -179,6 +181,50 @@ func (s *Snake) grow(newHead Cell) {
 
 func (s *Snake) collidedWithSelf(newHead Cell) bool {
 	for _, cell := range s.body {
+		if cell.row == newHead.row && cell.col == newHead.col {
+			return true
+		}
+	}
+
+	return false
+}
+
+// --------------------------------------------------------------------------
+// Snake version with linked list
+// --------------------------------------------------------------------------
+
+type Snake2 struct {
+	body *list.List
+}
+
+func NewSnake2() *Snake2 {
+	l := list.New()
+	l.PushBack(Cell{0, 0})
+
+	return &Snake2{
+		body: l,
+	}
+}
+
+func (s *Snake2) head() Cell {
+	return s.body.Back().Value.(Cell)
+}
+
+func (s *Snake2) move(newHead Cell) {
+	// append on the new head and drop the tail (first element)
+	s.body.PushBack(newHead)
+	s.body.Remove(s.body.Front())
+}
+
+func (s *Snake2) grow(newHead Cell) {
+	// append on the new head, no need to drop the tail
+	s.body.PushBack(newHead)
+}
+
+func (s *Snake2) collidedWithSelf(newHead Cell) bool {
+	for e := s.body.Front(); e != nil; e = e.Next() {
+		cell := e.Value.(Cell)
+
 		if cell.row == newHead.row && cell.col == newHead.col {
 			return true
 		}

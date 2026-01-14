@@ -20,3 +20,6 @@ start:
 
 ratelimiter:
 	go run cmd/ratelimiter/main.go
+
+logparser:
+	go run cmd/logparser/main.go -path=logs -query="service=auth level=warning"
