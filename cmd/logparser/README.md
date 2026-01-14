@@ -24,4 +24,4 @@ This command-line tool:
 go run main.go -path=/path/to/logs -query="service=auth level=error"
 ```
 
-just running `go run main.go` will result in the default args being supplied (folder name logs and no query)
+just running `go run main.go` will result in the default args being supplied (the path will be set to "logs" and no query will be given so all log lines will be printed)
