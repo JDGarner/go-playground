@@ -55,3 +55,8 @@ func MajorityElementExample() {
 	res := majorityElement([]int{1, 1, 2, 2, 3, 3, 1, 2})
 	fmt.Println(">>> res: ", res)
 }
+
+func ArrayExample() {
+	res := subarraySum([]int{1, 2, 3, 3, 3, -3}, 3)
+	fmt.Println(">>> res: ", res)
+}
